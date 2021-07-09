@@ -39,6 +39,12 @@ const questions = [
         choices: ["MIT", "GPLv2", "Apache", "None"],
     },
     {
+        type: "list",
+        name: "color",
+        message: "What color do you want your badge to be?",
+        choices: ["blue", "green", "red", "orange", "yellow"],
+    },
+    {
         type: "input",
         name: "username",
         message: "What is your Github user name?",
@@ -58,11 +64,18 @@ const questions = [
 
 ];
 
-// TODO: Create a function to write README file
-function writeToFile(fileName, data) {}
+// DONE: Create a function to write README file
+function writeToFile(fileName, data) {
+    fs.writeFileSync(path.join(process.cwd(), fileName), data);
+}
 
-// TODO: Create a function to initialize app
-function init() {}
+// DONE: Create a function to initialize app
+function init() {
+    inquirer.prompt(questions).then((answers) => {
+        var readMeData = generateMarkdown({ ...answers });
+        writeToFile('README.md', readMeData);
+    });
+}
 
 // Function call to initialize app
 init();
